@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic-settings
+pdfplumber
+python-docx
+sentence-transformers
+numpy
+google-generativeai
+google-adk==2.2.0
