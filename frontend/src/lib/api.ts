@@ -135,7 +135,7 @@ export async function updateProfile(updates: Partial<User>): Promise<User> {
 function mapBackendResponseToScreeningResult(data: any): ScreeningResult {
   const candidates: Candidate[] = (data.candidates ?? []).map((candidate: any, index: number) => ({
     id: candidate.id ?? `c_${index}`,
-    name: candidate.name ?? candidate.resume_filename ?? `Candidate ${index + 1}`,
+    name: candidate.name ?? candidate.candidate_name ?? candidate.resume_filename ??`Candidate ${index + 1}`,
     email: candidate.email ?? "",
     phone: candidate.phone ?? "",
     semantic_score: Math.round(((candidate.semantic_score ?? candidate.semantic_similarity_score ?? 0) <= 1 ? (candidate.semantic_score ?? candidate.semantic_similarity_score ?? 0) * 100 : (candidate.semantic_score ?? candidate.semantic_similarity_score ?? 0))),

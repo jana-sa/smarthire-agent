@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import re
 import uuid
+from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
@@ -42,7 +44,60 @@ def startup() -> None:
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+def extract_candidate_name_from_resume(resume_text: str, filename: str) -> str:
+    """
+    Tries to extract the candidate's real name from the first lines of the resume.
+    If it cannot find a reliable name, it falls back to the uploaded filename.
+    """
 
+    lines = [line.strip() for line in resume_text.splitlines() if line.strip()]
+
+    bad_keywords = {
+        "resume",
+        "cv",
+        "curriculum vitae",
+        "profile",
+        "summary",
+        "education",
+        "experience",
+        "work experience",
+        "skills",
+        "technical skills",
+        "projects",
+        "contact",
+        "email",
+        "phone",
+        "linkedin",
+        "github",
+        "portfolio",
+    }
+
+    for line in lines[:12]:
+        clean = re.sub(r"[^A-Za-zÇĞİÖŞÜçğıöşü\s'-]", " ", line)
+        clean = re.sub(r"\s+", " ", clean).strip()
+        words = clean.split()
+
+        if not clean:
+            continue
+
+        lower = clean.lower()
+
+        if lower in bad_keywords:
+            continue
+
+        if any(keyword in lower for keyword in bad_keywords):
+            continue
+
+        if 2 <= len(words) <= 4:
+            return clean
+
+    fallback = Path(filename).stem
+    fallback = fallback.replace("_", " ").replace("-", " ").strip()
+
+    if fallback:
+        return fallback.title()
+
+    return "Uploaded Resume"
 
 @app.post("/auth/signup", response_model=AuthResponse)
 def signup(payload: UserCreate) -> AuthResponse:
@@ -152,9 +207,10 @@ async def screen_candidates(
         )
 
         filename = upload.filename or "candidate"
+        candidate_name = extract_candidate_name_from_resume(resume_text, filename)
         parsed_resumes.append(
             (
-                filename,
+                candidate_name,
                 anonymize_resume_text(resume_text),
             )
         )
