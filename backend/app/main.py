@@ -290,21 +290,24 @@ def screening_result(
         "created_at": run["created_at"],
         "job_requirements": loads(run["job_requirements_json"]),
         "total_resumes": run["total_resumes"],
-        "candidates": [
-            {
-                "candidate_name": row["candidate_name"],
-                "score": row["score"],
-                "explanation": row["explanation"],
-                "semantic_score": row["semantic_score"],
-                "rule_score": row["rule_score"],
-                "matched_skills": loads(row["matched_skills_json"]),
-                "missing_skills": loads(row["missing_skills_json"]),
-                "strengths": loads(row["strengths_json"]),
-                "weaknesses": loads(row["weaknesses_json"]),
-                "recommendation": row["recommendation"],
-            }
-            for row in candidates
-        ],
+       "candidates": [
+    {
+        "candidate_name": row["candidate_name"],
+        "name": row["candidate_name"],
+        "resume_filename": row["resume_filename"],
+        "score": row["score"],
+        "overall_score": row["score"],
+        "explanation": row["explanation"],
+        "semantic_score": row["semantic_score"],
+        "rule_score": row["rule_score"],
+        "matched_skills": loads(row["matched_skills_json"]),
+        "missing_skills": loads(row["missing_skills_json"]),
+        "strengths": loads(row["strengths_json"]),
+        "weaknesses": loads(row["weaknesses_json"]),
+        "recommendation": row["recommendation"],
+    }
+    for row in candidates
+  ],
     }
 
 
