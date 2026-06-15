@@ -25,11 +25,18 @@ import { EmptyState } from "@/components/EmptyState";
 import { Input } from "@/components/ui/input";
 
 const getCandidateDisplayName = (candidate: Candidate, rank?: number) => {
-  return (
-    candidate.resume_filename ||
-    candidate.name ||
-    (rank ? `Candidate ${rank}` : "Candidate")
-  );
+  const name = candidate.name ?? "";
+  const file = candidate.resume_filename ?? "";
+
+  if (name && !/^candidate[_\s-]*\d+(\.pdf)?$/i.test(name)) {
+    return name;
+  }
+
+  if (file) {
+    return file;
+  }
+
+  return rank ? `Candidate ${rank}` : "Candidate";
 };
 
 const Results = () => {
@@ -260,7 +267,7 @@ function CandidateCard({ candidate, rank }: { candidate: Candidate; rank: number
   const [open, setOpen] = useState(rank === 1);
   const displayName = getCandidateDisplayName(candidate, rank);
   const internalName =
-    candidate.name && candidate.name !== displayName ? candidate.name : "";
+    candidate.resume_filename && candidate.resume_filename !== displayName? candidate.resume_filename: "";
 
   return (
     <Card className="overflow-hidden transition-smooth hover:shadow-elegant">
