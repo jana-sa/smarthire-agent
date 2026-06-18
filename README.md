@@ -448,7 +448,7 @@ This was an engineering trade-off to keep the project live and usable.
 ![Login Page](signup.png)
 ### Dashboard
 
-![Dashboard](dashboard_page.png)
+![Dashboard](dashboard.png)
 
 ### Resume Upload Page
 
