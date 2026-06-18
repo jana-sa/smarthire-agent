@@ -435,18 +435,36 @@ This was an engineering trade-off to keep the project live and usable.
 
 ## Screenshots
 
-Add screenshots in the final report or documentation:
+### Landing Page
 
-```text
-Landing page
-Login / signup page
-Dashboard page
-Resume upload page
-Ranked results page
-Screening history page
-Render deployment page
-Vercel deployment page
-```
+![Landing Page](landingpage.png)
+
+### Login / Signup Page
+
+![Login Page](signin.png)
+
+### Login / Signup Page
+
+![Login Page](signup.png)
+### Dashboard
+
+![Dashboard](dashboard_page.png)
+
+### Resume Upload Page
+
+![Resume Upload](upload.png)
+
+### Ranked Results Page
+
+![Ranked Results](ranked.png)
+
+### Render Backend Deployment
+
+![Render Deployment](render.png)
+
+### Vercel Frontend Deployment
+
+![Vercel Deployment](vercel.png)
 
 ---
 
